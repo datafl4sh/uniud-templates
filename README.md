@@ -1,5 +1,4 @@
-Unofficial templates for UniUD PhD Expo
-=======================================
+# Unofficial templates for UniUD PhD Expo
 
 Some unofficial templates for Posters and Slides of UniUD PhD Expo event.
 At the moment the code sucks, but I hope that with the help of a good
