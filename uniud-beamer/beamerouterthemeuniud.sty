@@ -1,0 +1,42 @@
+\mode<presentation>
+
+\newcommand{\UniudHeadline}{%
+    \begin{tikzpicture}
+        \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+        \fill[color=uniud-brown] (-1.5,9.15) rectangle (0.1, \the\paperheight);
+        \fill[color=uniud-orange] (0.1,9.15) rectangle (10.15, \the\paperheight);
+        \fill[color=uniud-blue] (10.15,9.15) rectangle (\the\paperwidth, \the\paperheight);
+        \node[anchor=west,white, font=\tiny] at (0.15,9.36){\scalebox{.95}[1.0]{UNIVERSITÀ DEGLI STUDI DI UDINE - Dottorato in Ingegneria Industriale e dell'Informazione}};
+        \node[anchor=west,white, font=\tiny] at (10.2,9.36){\scalebox{.95}[1.0]{www.uniud.it}};
+        \node[anchor=west] at (-0.5, 9.37){\includegraphics[width=10pt]{pollo-light.pdf}};
+    \end{tikzpicture}    
+}
+
+\setbeamertemplate{headline}[text line]{
+    \ifnum\thepage>1\relax
+        \UniudHeadline
+    \fi
+}
+
+% Frame title
+\defbeamertemplate*{frametitle}{uniud}[1][]
+{
+    \vskip0.7cm
+    \hskip -0.5cm \insertframetitle
+%\vskip1cm%
+%  \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle} 
+%  \begin{tikzpicture}
+%  \useasboundingbox[fill=white](0,0) rectangle(\the\paperwidth,1.2);
+%  \fill[uniud-brown] (0,0) rectangle(2.95,1.2);
+%  \fill[blue!50!cyan!80] (3.05,0) rectangle(\the\paperwidth,1.2);
+%   \ifx\insertframesubtitle\@empty%
+%      {\node[anchor=west, white,font=\large] at (3.2,0.61){\insertframetitle};}
+%      \else%
+%      {\node[anchor= west, white,font=\large] at (3.2,0.81){\insertframetitle};%
+%       \node[anchor= west, white,font=\small] at (3.2,0.41){\insertframesubtitle};}%
+%      \fi
+%  \end{tikzpicture}
+%  \end{beamercolorbox}
+}
+
+\mode<all>

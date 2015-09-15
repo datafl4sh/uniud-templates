@@ -1,0 +1,38 @@
+\mode<presentation>
+
+
+\setbeamertemplate{background}{
+  \begin{tikzpicture}
+  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+  \fill[color=uniud-brown] (0,2) rectangle (3, \the\paperheight);
+  \fill[color=uniud-orange] (0,0) rectangle (3,1.9);
+  \fill[color=uniud-blue] (3.1,0) rectangle(\the\paperwidth,1.9);
+  \ifnum\thepage>1\relax%
+   \fill[white,opacity=1] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+   \fi
+  \end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{uniud}[1][]
+{ 
+    \vskip0.2cm%
+    \begin{beamercolorbox}[leftskip=-0.5cm]{pollo}
+        \includegraphics[width=2cm]{pollo-light.pdf}
+    \end{beamercolorbox}%
+   \vskip3.2cm%
+    \begin{beamercolorbox}[wd=12cm,leftskip=3cm,#1]{title page header}
+      \usebeamerfont{title}\inserttitle\par%
+    \end{beamercolorbox}%
+    \vskip0.6cm%
+    \begin{beamercolorbox}[wd=12cm,leftskip=3cm,#1]{author}
+        \usebeamerfont{author}\textcolor{white}{\insertauthor}%
+    \end{beamercolorbox}
+     \vskip0.2cm%
+    \begin{beamercolorbox}[wd=12cm,leftskip=3cm,#1]{date}
+        \usebeamerfont{author}\textcolor{white}{\insertdate}%
+    \end{beamercolorbox}
+  \vfill
+}
+
+\mode<all>

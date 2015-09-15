@@ -1,0 +1,121 @@
+%
+% TikZ stuff
+%
+\usetikzlibrary{arrows,positioning, patterns}
+\usetikzlibrary{decorations.markings}
+\newcommand{\savedx}{0}
+\newcommand{\savedy}{0}
+\newcommand{\savedz}{0}
+%
+% 3d rotation code
+%
+\newcommand{\rotateRPY}[4][0/0/0]% point to be saved to \savedxyz, roll, pitch, yaw
+{   \pgfmathsetmacro{\rollangle}{#2}
+    \pgfmathsetmacro{\pitchangle}{#3}
+    \pgfmathsetmacro{\yawangle}{#4}
+
+    % to what vector is the x unit vector transformed, and which 2D vector is this?
+    \pgfmathsetmacro{\newxx}{cos(\yawangle)*cos(\pitchangle)}% a
+    \pgfmathsetmacro{\newxy}{sin(\yawangle)*cos(\pitchangle)}% d
+    \pgfmathsetmacro{\newxz}{-sin(\pitchangle)}% g
+    \path (\newxx,\newxy,\newxz);
+    \pgfgetlastxy{\nxx}{\nxy};
+
+    % to what vector is the y unit vector transformed, and which 2D vector is this?
+    \pgfmathsetmacro{\newyx}{cos(\yawangle)*sin(\pitchangle)*sin(\rollangle)-sin(\yawangle)*cos(\rollangle)}% b
+    \pgfmathsetmacro{\newyy}{sin(\yawangle)*sin(\pitchangle)*sin(\rollangle)+ cos(\yawangle)*cos(\rollangle)}% e
+    \pgfmathsetmacro{\newyz}{cos(\pitchangle)*sin(\rollangle)}% h
+    \path (\newyx,\newyy,\newyz);
+    \pgfgetlastxy{\nyx}{\nyy};
+
+    % to what vector is the z unit vector transformed, and which 2D vector is this?
+    \pgfmathsetmacro{\newzx}{cos(\yawangle)*sin(\pitchangle)*cos(\rollangle)+ sin(\yawangle)*sin(\rollangle)}
+    \pgfmathsetmacro{\newzy}{sin(\yawangle)*sin(\pitchangle)*cos(\rollangle)-cos(\yawangle)*sin(\rollangle)}
+    \pgfmathsetmacro{\newzz}{cos(\pitchangle)*cos(\rollangle)}
+    \path (\newzx,\newzy,\newzz);
+    \pgfgetlastxy{\nzx}{\nzy};
+
+    % transform the point given by #1
+    \foreach \x/\y/\z in {#1}
+    {   \pgfmathsetmacro{\transformedx}{\x*\newxx+\y*\newyx+\z*\newzx}
+        \pgfmathsetmacro{\transformedy}{\x*\newxy+\y*\newyy+\z*\newzy}
+        \pgfmathsetmacro{\transformedz}{\x*\newxz+\y*\newyz+\z*\newzz}
+        \xdef\savedx{\transformedx}
+        \xdef\savedy{\transformedy}
+        \xdef\savedz{\transformedz}
+    }
+}
+
+
+%
+% Draw a block
+%
+\newcommand{\block}[7]%
+{
+    \pgfmathsetmacro{\xa}{#1}
+    \pgfmathsetmacro{\ya}{#2}
+    \pgfmathsetmacro{\za}{#3}
+    \pgfmathsetmacro{\xb}{#4}
+    \pgfmathsetmacro{\yb}{#5}
+    \pgfmathsetmacro{\zb}{#6}
+
+    \coordinate (a) at (\xa, \ya, \za);
+    \coordinate (b) at (\xb, \ya, \za);
+    \coordinate (c) at (\xb, \yb, \za);
+    \coordinate (d) at (\xa, \yb, \za);
+
+    \coordinate (a1) at (\xa, \ya, \zb);
+    \coordinate (b1) at (\xb, \ya, \zb);
+    \coordinate (c1) at (\xb, \yb, \zb);
+    \coordinate (d1) at (\xa, \yb, \zb);
+
+
+    \filldraw [fill=lightgray, opacity=#7] (a)--(a1)--(b1)--(b)--(a);
+    \filldraw [fill=lightgray, opacity=#7] (a)--(b)--(c)--(d)--(a);
+    \filldraw [fill=lightgray, opacity=#7] (a1)--(b1)--(c1)--(d1)--(a1);
+    \filldraw [fill=lightgray, opacity=#7] (c)--(c1)--(d1)--(d)--(c);
+    \filldraw [fill=lightgray, opacity=#7] (a)--(a1)--(d1)--(d)--(a);
+}
+%
+% Draw a single cone
+%
+\newcommand{\cone}[3]%
+{
+    \pgfmathsetmacro{\xshift}{#1}
+    \pgfmathsetmacro{\yshift}{#2}
+    \pgfmathsetmacro{\zshift}{#3}
+
+    \coordinate (a) at (3.95+\xshift,0.45+\yshift,0.45+\zshift);
+    \coordinate (b) at (3.95+\xshift,0.45+\yshift,1.05+\zshift);
+    \coordinate (c) at (3.95+\xshift,1.05+\yshift,1.05+\zshift);
+    \coordinate (d) at (3.95+\xshift,1.05+\yshift,0.45+\zshift);
+
+    \coordinate (a1) at (6.55+\xshift,0+\yshift,0+\zshift);
+    \coordinate (b1) at (6.55+\xshift,0+\yshift,1.5+\zshift);
+    \coordinate (c1) at (6.55+\xshift,1.5+\yshift,1.5+\zshift);
+    \coordinate (d1) at (6.55+\xshift,1.5+\yshift,0+\zshift);
+
+    \filldraw [fill=lightgray,opacity=0.8] (a1)--(b1)--(c1)--(d1)--(a1);
+    \filldraw [fill=lightgray,opacity=0.8] (d)--(a)--(a1)--(d1)--(d);
+    \filldraw [fill=lightgray,opacity=0.8] (a)--(b)--(b1)--(a1)--(a);
+    \filldraw [fill=lightgray,opacity=0.8] (b)--(c)--(c1)--(b1)--(b);
+    \filldraw [fill=lightgray,opacity=0.8] (c)--(d)--(d1)--(c1)--(c);
+    \filldraw [fill=lightgray,opacity=0.8] (a)--(b)--(c)--(d)--(a);
+}
+%
+% Draw the whole cone assembly
+%
+\newcommand{\coneassembly}%
+{
+    \block{6.55}{0}{0}{7.25}{3}{3}{0.8}
+    \cone{0}{0}{0}
+    \cone{0}{0}{1.5}
+    \cone{0}{1.5}{0}
+    \cone{0}{1.5}{1.5}
+}
+
+\tikzset{RPY/.style={x={(\nxx,\nxy)},y={(\nyx,\nyy)},z={(\nzx,\nzy)}}}
+
+
+
+
