@@ -1,0 +1,85 @@
+%
+% Command definitions
+%
+\newcommand{\problemdomain}{\Omega}
+\newcommand{\primalgrid}{\mathcal{G}}
+\newcommand{\dualgrid}{\mathcal{\tilde{G}}}
+\newcommand{\positionvec}{\bm{r}}
+\newcommand{\normal}{\field{n}}
+\newcommand{\field}[1]{\bm{#1}}
+\newcommand{\fieldfunc}[1]{\field{#1}(\positionvec)}
+\newcommand{\tensor}[1]{\field{#1}}
+\newcommand{\tensorfunc}[1]{\tensor{#1}(\positionvec)}
+\newcommand{\rot}{\nabla\times}
+\newcommand{\faradayneumann}{\rot\fieldfunc{e} = -i\omega\fieldfunc{b}}
+\newcommand{\amperemaxwell}{\rot\fieldfunc{h} = i\omega\fieldfunc{d} + \fieldfunc{j}_s}
+\newcommand{\primaledge}{e}
+\newcommand{\primalface}{f}
+\newcommand{\dualedge}{\tilde{e}}
+\newcommand{\dualface}{\tilde{f}}
+\newcommand{\borderprimaledge}{e^b}
+\newcommand{\borderdualedge}{\tilde{e}^b}
+\newcommand{\primalcurl}{\mathbf{C}}
+\newcommand{\dualcurl}{\mathbf{C}^T}
+\newcommand{\numatrix}{\mathbf{M}_{\nu}}
+\newcommand{\epsmatrix}{\mathbf{M}_{\epsilon}}
+\newcommand{\ymatrix}{\mathbf{M}_{Y}}
+\newcommand{\mmf}{\mathbf{F}}
+\newcommand{\emf}{\mathbf{U}}
+\newcommand{\magflux}{\mathbf{\Phi}}
+\newcommand{\elecflux}{\mathbf{\Psi}}
+\newcommand{\bordermmf}{{\mmf^b}}
+\newcommand{\borderemf}{{\emf}}
+\newcommand{\basepropagation}{(\dualcurl\numatrix\primalcurl - \omega^2\epsmatrix)\emf}
+\newcommand{\admittancecontrib}{i\omega\ymatrix\emf}
+\newcommand{\scatteringborder}{{\partial_s}}
+\newcommand{\port}{\Sigma}
+\newcommand{\YCalculationPlane}{\Pi}
+
+
+% Note command:
+%  parameter 1: author
+%  parameter 2: note text
+\newcommand{\note}[2]{
+    \begin{center}
+        \centering
+        \fcolorbox{red}{YellowGreen}{
+            \mbox{
+                \parbox{0.8\linewidth}{
+                    \begin{center}
+                        \leftpointright~~\textbf{NOTE}
+                    \end{center}
+                    {\footnotesize
+                        \textcolor{red}{\emph{Author:}} #1\\
+                    #2
+                    }
+                }
+            }
+        }
+    \end{center}
+}
+
+% Correction command:
+%  parameter 1: author
+%  parameter 2: subject
+%  parameter 3: status
+\newcommand{\correction}[3]{
+    \begin{center}
+        \centering
+        \fcolorbox{red}{GreenYellow}{
+            \mbox{
+                \parbox{0.8\linewidth}{
+                    \begin{center}
+                        \smallpencil~~\textbf{CORRECTION}
+                    \end{center}
+                    {\footnotesize
+                        \textcolor{red}{\emph{Proposed by:}} #1\\
+                        \textcolor{red}{\emph{Subject:}} #2\\
+                        \textcolor{red}{\emph{Status:}} #3\\
+                    }
+                }
+            }
+        }
+    \end{center}
+}
+
